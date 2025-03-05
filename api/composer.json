@@ -1,0 +1,35 @@
+{
+    "name": "simpletine/codeigniter4-starter",
+    "description": "CodeIgniter4 Starter",
+    "license": "MIT",
+    "type": "project",
+    "homepage": "https://simpletine.com",
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "codeigniter4/framework": "^4.0",
+        "simpletine/hmvc-shield": "dev-main"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23.1",
+        "mikey179/vfsstream": "^1.6",
+        "phpstan/phpstan": "2.0.x-dev",
+        "phpunit/phpunit": "^9.1",
+        "codeigniter/coding-standard": "^1.7",
+        "squizlabs/php_codesniffer": "4.0.x-dev"
+    },
+    "autoload": {
+        "exclude-from-classmap": [
+            "**/Database/Migrations/**"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit",
+        "fix": "vendor/bin/php-cs-fixer fix --verbose"
+    },
+    "minimum-stability": "dev"
+}
