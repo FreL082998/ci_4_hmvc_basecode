@@ -16,8 +16,6 @@ services:
     working_dir: /var/www/${API_PATH}/
     volumes:
       - ./${API_PATH}:/var/www/${API_PATH}
-    expose:
-      - ${API_PORT}
     networks:
       - system
 
@@ -48,11 +46,10 @@ services:
     volumes:
       - ./docker/nginx/default.conf.template:/etc/nginx/templates/default.conf.template
     environment:
+      - SERVER_NAME=${SERVER_NAME}
       - API_PATH=${API_PATH}
       - API_PORT=${API_PORT}
-    command: [ "/bin/sh", "-c", "envsubst '$$API_PATH $$API_PORT' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'" ]
-    depends_on:
-      - api
+    command: [ "/bin/sh", "-c", "envsubst '$$SERVER_NAME $$API_PATH $$API_PORT' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'" ]
     networks:
       - system
 
