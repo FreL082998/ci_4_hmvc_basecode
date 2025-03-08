@@ -2,8 +2,9 @@
 
 namespace App\Database\Seeds;
 
-use CodeIgniter\Database\Seeder;
+use App\Entities\Test;
 use App\Models\TestModel;
+use CodeIgniter\Database\Seeder;
 
 class TestSeeder extends Seeder
 {
@@ -17,8 +18,8 @@ class TestSeeder extends Seeder
     public function run()
     {
         $data = [
-            ['title' => 'Hello', 'description' => 'lorem ipsum bla bla bla...'],
-            ['title' => 'World', 'description' => 'lorem ipsum bla bla bla...'],
+            new Test(['title' => 'Hello', 'description' => 'lorem ipsum bla bla bla...']),
+            new Test(['title' => 'World', 'description' => 'lorem ipsum bla bla bla...']),
         ];
 
         $this->model->insertBatch($data);
