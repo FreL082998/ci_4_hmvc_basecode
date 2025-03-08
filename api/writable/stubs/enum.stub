@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Enums;
+
+/**
+ * Enum {{enumName}}
+ *
+ * This enum is responsible for safe type {{enumName}}.
+ */
+enum {{enumName}}: string
+{
+    case Example1 = 'example1';
+    case Example2 = 'example2';
+
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
+}
