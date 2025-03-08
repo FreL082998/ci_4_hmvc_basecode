@@ -3,7 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Controllers\ApiController;
-use App\Entities\Test;
+use App\Entities\TestEntity;
 use App\Services\DatabaseService;
 use App\Services\TestService;
 use Exception;
@@ -105,14 +105,14 @@ class TestController extends ApiController
             $data = $this->request->getJSON(true);
 
             // Set entity value
-            $test = new Test();
-            $test->title = $data['title'] ?? null;
-            $test->description = $data['description'] ?? null;
+            $testEntity = new TestEntity();
+            $testEntity->title = $data['title'] ?? null;
+            $testEntity->description = $data['description'] ?? null;
 
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Insert data into model
-            if (!$this->model->insert($test)) {
+            if (!$this->model->insert($testEntity)) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
@@ -162,14 +162,14 @@ class TestController extends ApiController
             $data = $this->request->getJSON(true);
 
             // Set entity value
-            $test = new Test();
-            $test->title = $data['title'] ?? null;
-            $test->description = $data['description'] ?? null;
+            $testEntity = new TestEntity();
+            $testEntity->title = $data['title'] ?? null;
+            $testEntity->description = $data['description'] ?? null;
     
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Update data into model
-            if (!$this->model->update($id, $test)) {
+            if (!$this->model->update($id, $testEntity)) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 

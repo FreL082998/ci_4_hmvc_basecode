@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Entities\Test;
+use App\Entities\TestEntity;
 use CodeIgniter\Model;
 
 class TestModel extends Model
@@ -10,7 +10,7 @@ class TestModel extends Model
     protected $table            = 'test';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = Test::class;
+    protected $returnType       = TestEntity::class;
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = ['title', 'description'];
