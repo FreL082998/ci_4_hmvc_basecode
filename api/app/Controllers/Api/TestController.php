@@ -17,7 +17,7 @@ class TestController extends ApiController
     /**
      * @var string $modelName Model class name
      */
-    protected $modelName = 'App\Models\Test';
+    protected $modelName = 'App\Models\TestModel';
 
     /**
      * @var string $format Response format

@@ -3,7 +3,7 @@
 namespace App\Database\Seeds;
 
 use CodeIgniter\Database\Seeder;
-use App\Models\Test;
+use App\Models\TestModel;
 
 class TestSeeder extends Seeder
 {
@@ -11,7 +11,7 @@ class TestSeeder extends Seeder
 
     public function __construct()
     {
-        $this->model = new Test();
+        $this->model = new TestModel();
     }
 
     public function run()
