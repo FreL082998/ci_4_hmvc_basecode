@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Services\DatabaseService;
+use App\Services\TestService;
 use CodeIgniter\Config\BaseService;
 
 /**
@@ -30,6 +31,16 @@ class Services extends BaseService
      *     return new \CodeIgniter\Example();
      * }
      */
+
+    public static function testService($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('TestService');
+        }
+    
+        return new TestService();
+    }
+
     public static function databaseService($getShared = true)
     {
         if ($getShared) {
