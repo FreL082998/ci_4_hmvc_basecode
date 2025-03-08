@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Controllers\ApiController;
+use App\Entities\Test;
 use App\Services\DatabaseService;
 use App\Services\TestService;
 use Exception;
@@ -103,10 +104,15 @@ class TestController extends ApiController
             // Decode JSON safely
             $data = $this->request->getJSON(true);
 
+            // Set entity value
+            $test = new Test();
+            $test->title = $data['title'] ?? null;
+            $test->description = $data['description'] ?? null;
+
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Insert data into model
-            if (!$this->model->insert($data)) {
+            if (!$this->model->insert($test)) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
@@ -119,7 +125,7 @@ class TestController extends ApiController
 
             return $this->success(
                 message: 'Save successfully.',
-                data: $data, // Return saved data
+                data: $test, // Return saved data
             );
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
@@ -154,11 +160,16 @@ class TestController extends ApiController
 
             // Decode JSON safely
             $data = $this->request->getJSON(true);
+
+            // Set entity value
+            $test = new Test();
+            $test->title = $data['title'] ?? null;
+            $test->description = $data['description'] ?? null;
     
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Update data into model
-            if (!$this->model->update($id, $data)) {
+            if (!$this->model->update($id, $test)) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
@@ -171,7 +182,7 @@ class TestController extends ApiController
 
             return $this->success(
                 message: 'Update successfully.',
-                data: $data, // Return saved data
+                data: $test, // Return saved data
             );
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
