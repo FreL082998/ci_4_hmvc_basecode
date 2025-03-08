@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Controllers\ApiController;
+use App\Entities\{{moduleName}};
 use App\Services\DatabaseService;
 use Exception;
 
@@ -96,10 +97,14 @@ class {{moduleName}}Controller extends ApiController
             // Decode JSON safely
             $data = $this->request->getJSON(true);
 
+            // Set entity value
+            ${{entityName}} = new {{moduleName}}();
+            ${{entityName}}->example = $data['example'] ?? null;
+
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Insert data into model
-            if (!$this->model->insert($data)) {
+            if (!$this->model->insert(${{entityName}})) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
@@ -147,11 +152,15 @@ class {{moduleName}}Controller extends ApiController
 
             // Decode JSON safely
             $data = $this->request->getJSON(true);
+
+            // Set entity value
+            ${{entityName}} = new {{moduleName}}();
+            ${{entityName}}->example = $data['example'] ?? null;
     
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Update data into model
-            if (!$this->model->update($id, $data)) {
+            if (!$this->model->update($id, ${{entityName}})) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
