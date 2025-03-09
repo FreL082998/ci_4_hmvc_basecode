@@ -95,5 +95,6 @@ class Autoload extends AutoloadConfig
     public $helpers = [
         'url', 
         'string_helper',
+        'logger_helper',
     ];
 }
