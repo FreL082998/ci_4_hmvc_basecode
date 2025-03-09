@@ -4,7 +4,6 @@ namespace App\Controllers\Api;
 
 use App\Controllers\ApiController;
 use App\Entities\{{moduleName}}Entity;
-use App\Services\DatabaseService;
 use Exception;
 
 /**
@@ -25,6 +24,11 @@ class {{moduleName}}Controller extends ApiController
     protected $format = 'json';
 
     /**
+     * @var CommonService $commonService Handles common variable, function, and etc.
+     */
+    protected $commonService;
+    
+    /**
      * @var DatabaseService $databaseService Handles database transactions
      */
     protected $databaseService;
@@ -35,6 +39,7 @@ class {{moduleName}}Controller extends ApiController
      */
     public function __construct()
     {
+        $this->commonService = service('commonService');
         $this->databaseService = service('databaseService');
     }
 
@@ -76,12 +81,14 @@ class {{moduleName}}Controller extends ApiController
                 data: $data,
             );
         } catch (Exception $ex) {
+            $errors = $this->commonService->log(
+                logType: 'error',
+                ex: $ex
+            );
+
             return $this->error(
                 message: 'Retrieve failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
+                errors: $errors,
             );
         }
     }
@@ -122,12 +129,14 @@ class {{moduleName}}Controller extends ApiController
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
 
+            $errors = $this->commonService->log(
+                logType: 'error',
+                ex: $ex
+            );
+
             return $this->error(
                 message: 'Save failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
+                errors: $errors,
             );
         }
     }
@@ -178,12 +187,14 @@ class {{moduleName}}Controller extends ApiController
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
 
+            $errors = $this->commonService->log(
+                logType: 'error',
+                ex: $ex
+            );
+
             return $this->error(
                 message: 'Save failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
+                errors: $errors,
             );
         }
     }
@@ -223,13 +234,15 @@ class {{moduleName}}Controller extends ApiController
             );
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
-
+            
+            $errors = $this->commonService->log(
+                logType: 'error',
+                ex: $ex
+            );
+            
             return $this->error(
                 message: 'Failed delete.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
+                errors: $errors,
             );
         }
     }

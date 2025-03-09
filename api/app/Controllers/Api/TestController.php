@@ -94,12 +94,14 @@ class TestController extends ApiController
                 data: $data,
             );
         } catch (Exception $ex) {
+            $errors = $this->commonService->log(
+                logType: 'error',
+                ex: $ex
+            );
+
             return $this->error(
                 message: 'Retrieve failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
+                errors: $errors,
             );
         }
     }
@@ -141,12 +143,14 @@ class TestController extends ApiController
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
 
+            $errors = $this->commonService->log(
+                logType: 'error',
+                ex: $ex
+            );
+
             return $this->error(
                 message: 'Save failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
+                errors: $errors,
             );
         }
     }
@@ -198,12 +202,14 @@ class TestController extends ApiController
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
 
+            $errors = $this->commonService->log(
+                logType: 'error',
+                ex: $ex
+            );
+
             return $this->error(
                 message: 'Save failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
+                errors: $errors,
             );
         }
     }
@@ -243,13 +249,15 @@ class TestController extends ApiController
             );
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
-
+            
+            $errors = $this->commonService->log(
+                logType: 'error',
+                ex: $ex
+            );
+            
             return $this->error(
                 message: 'Failed delete.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
+                errors: $errors,
             );
         }
     }
