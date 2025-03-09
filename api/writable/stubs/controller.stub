@@ -117,7 +117,7 @@ class {{moduleName}}Controller extends ApiController
 
             return $this->success(
                 message: 'Save successfully.',
-                data: $data, // Return saved data
+                data: ${{entityName}}Entity, // Return saved data
             );
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
@@ -173,7 +173,7 @@ class {{moduleName}}Controller extends ApiController
 
             return $this->success(
                 message: 'Update successfully.',
-                data: $data, // Return saved data
+                data: ${{entityName}}Entity, // Return saved data
             );
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction

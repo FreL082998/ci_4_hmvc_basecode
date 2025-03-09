@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Services\CommonService;
 use App\Services\DatabaseService;
 use App\Services\TestService;
 use CodeIgniter\Config\BaseService;
@@ -32,13 +33,13 @@ class Services extends BaseService
      * }
      */
 
-    public static function testService($getShared = true)
+    public static function commonService($getShared = true)
     {
         if ($getShared) {
-            return static::getSharedInstance('TestService');
+            return static::getSharedInstance('CommonService');
         }
     
-        return new TestService();
+        return new CommonService();
     }
 
     public static function databaseService($getShared = true)
@@ -48,5 +49,14 @@ class Services extends BaseService
         }
     
         return new DatabaseService();
+    }
+
+    public static function testService($getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance('TestService');
+        }
+    
+        return new TestService();
     }
 }

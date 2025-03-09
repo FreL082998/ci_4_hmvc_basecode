@@ -63,10 +63,10 @@ class MakeTraitCommand extends BaseCommand
             return;
         }
 
-        $filePath = APPPATH . "Traits/{$traitName}.php";
+        $filePath = APPPATH . "Traits/{$traitName}Trait.php";
 
         if (file_exists($filePath)) {
-            CLI::error("Trait '{$traitName}' already exists.");
+            CLI::error("Trait '{$traitName}Trait' already exists.");
             return;
         }
 
@@ -86,6 +86,6 @@ class MakeTraitCommand extends BaseCommand
 
         file_put_contents($filePath, $traitContent);
 
-        CLI::write("Trait '{$traitName}' created successfully!", 'green');
+        CLI::write("Trait '{$traitName}Trait' created successfully!", 'green');
     }
 }

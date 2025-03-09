@@ -3,14 +3,14 @@
 namespace App\Traits;
 
 /**
- * Trait {{traitName}}
+ * Trait {{traitName}}Trait
  *
- * This trait provides reusable methods for {{traitName}} functionality.
+ * This trait provides reusable methods for {{traitName}}Trait functionality.
  */
-trait {{traitName}}
+trait {{traitName}}Trait
 {
     /**
-     * Example method in {{traitName}}.
+     * Example method in {{traitName}}Trait.
      *
      * This method serves as a placeholder for trait functionality.
      *
@@ -18,6 +18,6 @@ trait {{traitName}}
      */
     public function exampleMethod(): string
     {
-        return 'This is an example method in {{traitName}}';
+        return 'This is an example method in {{traitName}}Trait';
     }
 }
