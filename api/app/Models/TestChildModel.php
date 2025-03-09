@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
-use App\Entities\TestEntity;
 use CodeIgniter\Model;
 
-class TestModel extends Model
+class TestChildModel extends Model
 {
-    protected $table            = 'test';
+    protected $table            = 'test_child';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = TestEntity::class;
+    protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
-    protected $allowedFields    = ['title', 'description'];
+    protected $allowedFields    = ['test_id'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -22,17 +21,14 @@ class TestModel extends Model
     protected array $castHandlers = [];
 
     // Dates
-    protected $useTimestamps = true;
+    protected $useTimestamps = false;
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [
-        'title'         =>  'required|string|max_length[100]',
-        'description'   =>  'required|string',
-    ];
+    protected $validationRules      = [];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
@@ -47,16 +43,4 @@ class TestModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    /**
-     * HasOne
-     *
-     * @param int $id Record ID
-     * @return mixed
-     */
-    public function testChild(int $id)
-    {
-        $testChildModel = new TestChildModel();
-        return $testChildModel->where('test_id', $id)->first();
-    }
 }
