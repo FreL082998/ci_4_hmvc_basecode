@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Controllers\Api;
+namespace App\Modules\{{moduleName}}\Controllers\Api;
 
 use App\Controllers\ApiController;
-use App\Entities\TestEntity;
+use App\Modules\{{moduleName}}\Entities\{{moduleName}}Entity;
 use App\Enums\LogTypeEnum;
 use Exception;
 
 /**
- * Class TestController
+ * Class {{moduleName}}Controller
  *
  * Controller for handling API requests related to Test model.
  */
-class TestController extends ApiController
+class {{moduleName}}Controller extends ApiController
 {
     /**
      * @var string $modelName Model class name
      */
-    protected $modelName = 'App\Models\TestModel';
+    protected $modelName = 'App\Models\{{moduleName}}Model';
 
     /**
      * @var string $format Response format
@@ -28,16 +28,16 @@ class TestController extends ApiController
      * @var CommonService $commonService Handles common variable, function, and etc.
      */
     protected $commonService;
-
+    
     /**
      * @var DatabaseService $databaseService Handles database transactions
      */
     protected $databaseService;
 
     /**
-     * @var TestService $testService Handles business logic for Test
+     * @var {{moduleName}}Service ${{moduleNameCamelCase}}Service Handles database transactions
      */
-    protected $testService;
+    protected ${{moduleNameCamelCase}}Service;
 
     /**
      * Constructor
@@ -47,7 +47,7 @@ class TestController extends ApiController
     {
         $this->commonService = service('commonService');
         $this->databaseService = service('databaseService');
-        $this->testService = service('testService');
+        $this->{{moduleNameCamelCase}}Service = service('{{moduleNameCamelCase}}Service');
     }
 
     /**
@@ -62,7 +62,7 @@ class TestController extends ApiController
         $data['pageSize'] = (int) ($data['pageSize'] ?? config('Pager')->perPage);
         
         $result = [
-            'list' => $this->testService->getTests($this->model, $data),
+            'list' => $this->{{moduleNameCamelCase}}Service->get{{moduleName}}s($this->model, $data),
             'pagination' => $this->commonService->pagination($this->model, $data['page'], $data['pageSize']),
         ];
 
@@ -111,14 +111,13 @@ class TestController extends ApiController
             $data = $this->request->getJSON(true);
 
             // Set entity value
-            $testEntity = new TestEntity();
-            $testEntity->title = $data['title'] ?? null;
-            $testEntity->description = $data['description'] ?? null;
+            ${{entityName}}Entity = new {{moduleName}}Entity();
+            ${{entityName}}Entity->example = $data['example'] ?? null;
 
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Insert data into model
-            if (!$this->model->insert($testEntity)) {
+            if (!$this->model->insert(${{entityName}}Entity)) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
@@ -131,7 +130,7 @@ class TestController extends ApiController
 
             return $this->success(
                 message: 'Save successfully.',
-                data: $testEntity, // Return saved data
+                data: ${{entityName}}Entity, // Return saved data
             );
         } catch (Exception $ex) {
             return $this->handleException($ex, 'Saved delete.', true);
@@ -160,14 +159,13 @@ class TestController extends ApiController
             $data = $this->request->getJSON(true);
 
             // Set entity value
-            $testEntity = new TestEntity();
-            $testEntity->title = $data['title'] ?? null;
-            $testEntity->description = $data['description'] ?? null;
+            ${{entityName}}Entity = new {{moduleName}}Entity();
+            ${{entityName}}Entity->example = $data['example'] ?? null;
     
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Update data into model
-            if (!$this->model->update($id, $testEntity)) {
+            if (!$this->model->update($id, ${{entityName}}Entity)) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
@@ -180,7 +178,7 @@ class TestController extends ApiController
 
             return $this->success(
                 message: 'Update successfully.',
-                data: $testEntity, // Return saved data
+                data: ${{entityName}}Entity, // Return saved data
             );
         } catch (Exception $ex) {
             return $this->handleException($ex, 'Saved delete.', true);
