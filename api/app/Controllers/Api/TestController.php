@@ -62,7 +62,7 @@ class TestController extends ApiController
         $data['pageSize'] = (int) ($data['pageSize'] ?? config('Pager')->perPage);
         
         $result = [
-            'tests' => $this->testService->getTests($this->model, $data),
+            'list' => $this->testService->getTests($this->model, $data),
             'pagination' => $this->commonService->pagination($this->model, $data['page'], $data['pageSize']),
         ];
 
