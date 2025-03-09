@@ -59,6 +59,18 @@ abstract class BaseController extends Controller
     protected $db;
 
     /**
+     * --------------------------------------------------------------------------
+     * Pagination Service
+     * --------------------------------------------------------------------------
+     * 
+     * This property holds an instance of the CodeIgniter pagination service.
+     * It is used to handle pagination throughout the application.
+     * 
+     * @var \CodeIgniter\Pager\Pager
+     */
+    protected $pager;
+
+    /**
      * @return void
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -68,6 +80,7 @@ abstract class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
         $this->db = Database::connect();
+        $this->pager = service('pager');
         // E.g.: $this->session = service('session');
     }
 }

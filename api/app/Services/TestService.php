@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use CodeIgniter\Model;
+
 /**
  * Class TestService
  *
@@ -20,10 +22,29 @@ class TestService
     /**
      * Example method in TestService.
      *
+     * @param Model $model
+     * @param array $data
      * @return string
      */
-    public function exampleMethod(): string
+    public function getTests(Model $model, array $data): array
     {
-        return 'This is an example method in TestService';
+        $test = $model;
+
+        $filters = ['title', 'description', 'created_at'];
+        foreach ($filters as $filter) {
+            if(isset($data[$filter])) {
+                $test->like($filter, $data[$filter]);
+            }
+        }
+        
+        $result = $test->orderBy(
+            $data['orderBy'] ?? 'created_at',
+            $data['sortBy'] ?? 'DESC',
+        )
+        ->limit($data['pageSize'], ($data['page'] - 1) * $data['pageSize'])
+        ->get()
+        ->getResultArray();
+
+        return $result;
     }
 }

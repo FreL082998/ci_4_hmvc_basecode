@@ -4,8 +4,6 @@ namespace App\Controllers\Api;
 
 use App\Controllers\ApiController;
 use App\Entities\TestEntity;
-use App\Services\DatabaseService;
-use App\Services\TestService;
 use Exception;
 
 /**
@@ -26,6 +24,11 @@ class TestController extends ApiController
     protected $format = 'json';
 
     /**
+     * @var CommonService $commonService Handles common variable, function, and etc.
+     */
+    protected $commonService;
+
+    /**
      * @var DatabaseService $databaseService Handles database transactions
      */
     protected $databaseService;
@@ -41,6 +44,7 @@ class TestController extends ApiController
      */
     public function __construct()
     {
+        $this->commonService = service('commonService');
         $this->databaseService = service('databaseService');
         $this->testService = service('testService');
     }
@@ -52,11 +56,18 @@ class TestController extends ApiController
      */
     public function index()
     {
-        $data = $this->model->findAll();
+        $data = $this->request->getVar();
+        $data['page'] = (int) ($data['page'] ?? 1);
+        $data['pageSize'] = (int) ($data['pageSize'] ?? config('Pager')->perPage);
+        
+        $result = [
+            'tests' => $this->testService->getTests($this->model, $data),
+            'pagination' => $this->commonService->pagination($this->model, $data['page'], $data['pageSize']),
+        ];
 
         return $this->success(
             message: 'Retrieve successfully.',
-            data: $data,
+            data: $result,
         );
     }
 
@@ -125,7 +136,7 @@ class TestController extends ApiController
 
             return $this->success(
                 message: 'Save successfully.',
-                data: $test, // Return saved data
+                data: $testEntity, // Return saved data
             );
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
@@ -182,7 +193,7 @@ class TestController extends ApiController
 
             return $this->success(
                 message: 'Update successfully.',
-                data: $test, // Return saved data
+                data: $testEntity, // Return saved data
             );
         } catch (Exception $ex) {
             $this->databaseService->db->transRollback(); // Rollback Transaction
