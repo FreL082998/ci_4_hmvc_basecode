@@ -68,6 +68,7 @@ class MakeApiModuleCommand extends BaseCommand
         
         command('make:entity ' . $moduleName);
         command('make:model ' . $moduleName . 'Model');
+        command('make:eloquent ' . $moduleName);
         command('make:migration Create' . $moduleName . 'Table');
         command('make:seeder ' . $moduleName . 'Seeder');
 

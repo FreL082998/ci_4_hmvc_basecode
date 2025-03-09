@@ -48,6 +48,24 @@ class TestModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    // Eloquent Configuration
+    public function getEloquentConfig(): array
+    {
+        $property = [
+            'table'             =>  $this->table,
+            'primaryKey'        =>  $this->primaryKey,
+            'fillable'          =>  $this->allowedFields,
+            'useSoftDeletes'    =>  $this->useSoftDeletes,
+            'dates'             =>  [$this->createdField, $this->updatedField],
+        ];
+
+        if($this->useSoftDeletes) {
+            $property['dates'] = array_merge($property['dates'], [$this->deletedField]);
+        }
+
+        return $property;
+     }
+     
     /**
      * HasOne
      *
