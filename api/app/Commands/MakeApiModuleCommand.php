@@ -66,7 +66,7 @@ class MakeApiModuleCommand extends BaseCommand
         $controllerFilePath = APPPATH . "Controllers/Api";
         $this->generateFile('Controller', $controllerFilePath, 'controller.stub', $moduleName);
         
-        command('make:entity ' . $moduleName);
+        command('make:entity ' . $moduleName . 'Entity');
         command('make:model ' . $moduleName . 'Model');
         command('make:migration Create' . $moduleName . 'Table');
         command('make:seeder ' . $moduleName . 'Seeder');
