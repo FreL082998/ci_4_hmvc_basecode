@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use CodeIgniter\Model;
+use Exception;
 
 /**
  * Class CommonService
@@ -41,5 +42,39 @@ class CommonService
             'has_next' => ($page * $pageSize) < $total,
             'has_prev' => $page > 1,
         ];
+    }
+
+    /**
+     * Logs messages with a specified log level.
+     *
+     * @param string         $logType The type of log (e.g., 'info', 'error').
+     * @param Exception|null $ex      The exception to log (if available).
+     *
+     * @return array|null Returns an array for errors, otherwise null.
+     */
+    public function log(string $logType = 'error', ?Exception $ex, ?string $message, ?array $context): ?array
+    {
+        switch (strtolower($logType)) {
+            case 'info':
+                $message = $message ?? "";
+                $context = $context ?? [];
+                logger()->info($message, json_encode($context, JSON_PRETTY_PRINT));
+                return null;
+            
+            case 'error':
+                if ($ex) {
+                    $errors = [
+                        'message' => $ex->getMessage(),
+                        'trace'   => $ex->getTrace(),
+                    ];
+                    logger()->error(json_encode($errors, JSON_PRETTY_PRINT));
+                    
+                    return $errors;
+                }
+                return null;
+
+            default:
+                return null;
+        }
     }
 }
