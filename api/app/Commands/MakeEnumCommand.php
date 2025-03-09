@@ -47,7 +47,10 @@ class MakeEnumCommand extends BaseCommand
      *
      * @var array
      */
-    protected $options = [];
+    protected $options = [
+        '--hmvc'   => 'Generate the enum inside a module.',
+        '--module' => 'Specify the module name (required if using --hmvc).',
+    ];
 
     /**
      * Actually execute a command.
@@ -57,20 +60,30 @@ class MakeEnumCommand extends BaseCommand
     public function run(array $params)
     {
         $enumName = $params[0] ?? null;
+        $isHmvc = CLI::getOption('hmvc') !== null;
+        $moduleName = CLI::getOption('module') ?? $enumName;
 
         if (!$enumName) {
-            CLI::error('You must provide a enum name.');
+            CLI::error('You must provide an enum name.');
             return;
         }
 
-        $filePath = APPPATH . "Enums/{$enumName}Enum.php";
+        $filePath = $isHmvc 
+            ? APPPATH . "Modules/{$moduleName}/Enums/{$enumName}Enum.php"
+            : APPPATH . "Enums/{$enumName}Enum.php";
+
+        // Ensure the directory exists before writing the file
+        $directory = dirname($filePath);
+        if (!is_dir($directory)) {
+            mkdir($directory, 0755, true);
+        }
 
         if (file_exists($filePath)) {
             CLI::error("Enum '{$enumName}Enum' already exists.");
             return;
         }
 
-        $stubPath = WRITEPATH . 'stubs/enum.stub';
+        $stubPath = $isHmvc ? WRITEPATH . 'stubs/hmvc/enum.stub' : WRITEPATH . 'stubs/enum.stub';
         if (!file_exists($stubPath)) {
             CLI::error('Stub file not found.');
             return;
@@ -79,10 +92,7 @@ class MakeEnumCommand extends BaseCommand
         // Load the stub and replace placeholder
         $stubContent = file_get_contents($stubPath);
         $enumContent = str_replace('{{enumName}}', $enumName, $stubContent);
-
-        if (!is_dir(APPPATH . 'Enums')) {
-            mkdir(APPPATH . 'Enums', 0755, true);
-        }
+        $enumContent = str_replace('{{moduleName}}', $moduleName, $enumContent);
 
         file_put_contents($filePath, $enumContent);
 
