@@ -83,13 +83,7 @@ class TestController extends ApiController
                 data: $data,
             );
         } catch (Exception $ex) {
-            return $this->error(
-                message: 'Retrieve failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
-            );
+            return $this->handleException($ex, 'Retrieved delete.', false);
         }
     }
 
@@ -125,18 +119,10 @@ class TestController extends ApiController
 
             return $this->success(
                 message: 'Save successfully.',
-                data: $test, // Return saved data
+                data: $testEntity, // Return saved data
             );
         } catch (Exception $ex) {
-            $this->databaseService->db->transRollback(); // Rollback Transaction
-
-            return $this->error(
-                message: 'Save failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
-            );
+            return $this->handleException($ex, 'Saved delete.', true);
         }
     }
 
@@ -182,18 +168,10 @@ class TestController extends ApiController
 
             return $this->success(
                 message: 'Update successfully.',
-                data: $test, // Return saved data
+                data: $testEntity, // Return saved data
             );
         } catch (Exception $ex) {
-            $this->databaseService->db->transRollback(); // Rollback Transaction
-
-            return $this->error(
-                message: 'Save failed.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
-            );
+            return $this->handleException($ex, 'Saved delete.', true);
         }
     }
 
@@ -231,15 +209,33 @@ class TestController extends ApiController
                 message: 'Delete successfully.',
             );
         } catch (Exception $ex) {
-            $this->databaseService->db->transRollback(); // Rollback Transaction
-
-            return $this->error(
-                message: 'Failed delete.',
-                errors: [
-                    'messages' => $ex->getMessage(),
-                    'trace'    => $ex->getTrace(),
-                ],
-            );
+            return $this->handleException($ex, 'Failed delete.', true);
         }
+    }
+
+    /**
+     * Handles exceptions by logging the error and optionally performing a rollback.
+     *
+     * @param Exception $ex       The exception instance that was thrown.
+     * @param string    $message  A custom error message to log.
+     * @param bool      $rollback Whether to perform a rollback operation (default: false).
+     *
+     * @return Response
+     */
+    private function handleException(Exception $ex, string $message, bool $rollback = false)
+    {
+        if($rollback) {
+            $this->databaseService->db->transRollback(); // Rollback Transaction
+        }
+
+        $errors = $this->commonService->log(
+            logType: 'error',
+            ex: $ex
+        );
+        
+        return $this->error(
+            message: $message,
+            errors: $errors,
+        );
     }
 }
