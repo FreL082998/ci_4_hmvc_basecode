@@ -3,14 +3,14 @@
 namespace App\Services;
 
 /**
- * Class {{serviceName}}
+ * Class {{serviceName}}Service
  *
- * This service class is responsible for handling business logic related to {{serviceName}}.
+ * This service class is responsible for handling business logic related to {{serviceName}}Service.
  */
-class {{serviceName}}
+class {{serviceName}}Service
 {
     /**
-     * Constructor for {{serviceName}}.
+     * Constructor for {{serviceName}}Service.
      */
     public function __construct()
     {
@@ -18,12 +18,12 @@ class {{serviceName}}
     }
 
     /**
-     * Example method in {{serviceName}}.
+     * Example method in {{serviceName}}Service.
      *
      * @return string
      */
     public function exampleMethod(): string
     {
-        return 'This is an example method in {{serviceName}}';
+        return 'This is an example method in {{serviceName}}Service';
     }
 }

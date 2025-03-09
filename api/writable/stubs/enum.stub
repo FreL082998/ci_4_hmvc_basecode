@@ -3,11 +3,11 @@
 namespace App\Enums;
 
 /**
- * Enum {{enumName}}
+ * Enum {{enumName}}Enum
  *
- * This enum is responsible for safe type {{enumName}}.
+ * This enum is responsible for safe type {{enumName}}Enum.
  */
-enum {{enumName}}: string
+enum {{enumName}}Enum: string
 {
     case Example1 = 'example1';
     case Example2 = 'example2';

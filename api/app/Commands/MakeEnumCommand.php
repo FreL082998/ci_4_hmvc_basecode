@@ -63,10 +63,10 @@ class MakeEnumCommand extends BaseCommand
             return;
         }
 
-        $filePath = APPPATH . "Enums/{$enumName}.php";
+        $filePath = APPPATH . "Enums/{$enumName}Enum.php";
 
         if (file_exists($filePath)) {
-            CLI::error("Enum '{$enumName}' already exists.");
+            CLI::error("Enum '{$enumName}Enum' already exists.");
             return;
         }
 
@@ -86,6 +86,6 @@ class MakeEnumCommand extends BaseCommand
 
         file_put_contents($filePath, $enumContent);
 
-        CLI::write("Enum '{$enumName}' created successfully!", 'green');
+        CLI::write("Enum '{$enumName}Enum' created successfully!", 'green');
     }
 }

@@ -63,10 +63,10 @@ class MakeServiceCommand extends BaseCommand
             return;
         }
 
-        $filePath = APPPATH . "Services/{$serviceName}.php";
+        $filePath = APPPATH . "Services/{$serviceName}Service.php";
 
         if (file_exists($filePath)) {
-            CLI::error("Service '{$serviceName}' already exists.");
+            CLI::error("Service '{$serviceName}Service' already exists.");
             return;
         }
 
@@ -86,6 +86,6 @@ class MakeServiceCommand extends BaseCommand
 
         file_put_contents($filePath, $serviceContent);
 
-        CLI::write("Service '{$serviceName}' created successfully!", 'green');
+        CLI::write("Service '{$serviceName}Service' created successfully!", 'green');
     }
 }
