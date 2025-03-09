@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\LogTypeEnum;
 use CodeIgniter\Model;
 use Exception;
 
@@ -47,21 +48,21 @@ class CommonService
     /**
      * Logs messages with a specified log level.
      *
-     * @param string         $logType The type of log (e.g., 'info', 'error').
+     * @param LogTypeEnum         $logType The type of log (e.g., 'info', 'error').
      * @param Exception|null $ex      The exception to log (if available).
      *
      * @return array|null Returns an array for errors, otherwise null.
      */
-    public function log(string $logType = 'error', ?Exception $ex, ?string $message, ?array $context): ?array
+    public function log(LogTypeEnum $logType = LogTypeEnum::ERROR, ?Exception $ex, ?string $message, ?array $context): ?array
     {
-        switch (strtolower($logType)) {
-            case 'info':
+        switch ($logType) {
+            case LogTypeEnum::INFO:
                 $message = $message ?? "";
                 $context = $context ?? [];
                 logger()->info($message, json_encode($context, JSON_PRETTY_PRINT));
                 return null;
             
-            case 'error':
+            case LogTypeEnum::ERROR:
                 if ($ex) {
                     $errors = [
                         'message' => $ex->getMessage(),
