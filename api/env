@@ -25,6 +25,7 @@
 # app_baseURL = ''
 # app.forceGlobalSecureRequests = false
 # app.CSPEnabled = false
+# app.debug = true
 
 #--------------------------------------------------------------------
 # DATABASE

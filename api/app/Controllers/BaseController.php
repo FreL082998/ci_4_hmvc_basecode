@@ -7,6 +7,7 @@ use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use Config\Database;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -44,6 +45,20 @@ abstract class BaseController extends Controller
     // protected $session;
 
     /**
+     * The model instance for interacting with the database.
+     * 
+     * @var \App\Models\Home
+     */
+    protected $model;
+
+    /**
+     * The database connection instance.
+     *
+     * @var \CodeIgniter\Database\BaseConnection
+     */
+    protected $db;
+
+    /**
      * @return void
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -52,7 +67,7 @@ abstract class BaseController extends Controller
         parent::initController($request, $response, $logger);
 
         // Preload any models, libraries, etc, here.
-
+        $this->db = Database::connect();
         // E.g.: $this->session = service('session');
     }
 }

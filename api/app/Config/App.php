@@ -40,7 +40,7 @@ class App extends BaseConfig
      * something else. If you have configured your web server to remove this file
      * from your site URIs, set this variable to an empty string.
      */
-    public string $indexPage = 'index.php';
+    public string $indexPage = '';
 
     /**
      * --------------------------------------------------------------------------
@@ -199,4 +199,30 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    /**
+     * --------------------------------------------------------------------------
+     * Custom App Configuration
+     * --------------------------------------------------------------------------
+     * 
+     * This section allows you to define custom application-wide settings that 
+     * can be configured through the `.env` file.
+     * 
+     * Example Usage:
+     * - Define a new variable in `.env`:
+     *   app.debug = true
+     * 
+     * - This value will automatically be set in `Config\App.php`:
+     *   public bool $debug = false;
+     * 
+     * - Retrieve the value in your application:
+     *   $debugMode = config('App')->debug;
+     * 
+     * - Example usage in code:
+     *   if (config('App')->debug) {
+     *       log_message('debug', 'Debug mode is enabled.');
+     *   }
+     * 
+     */
+    public bool $debug = false;
 }

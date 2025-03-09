@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Traits;
+
+/**
+ * Trait {{traitName}}
+ *
+ * This trait provides reusable methods for {{traitName}} functionality.
+ */
+trait {{traitName}}
+{
+    /**
+     * Example method in {{traitName}}.
+     *
+     * This method serves as a placeholder for trait functionality.
+     *
+     * @return string
+     */
+    public function exampleMethod(): string
+    {
+        return 'This is an example method in {{traitName}}';
+    }
+}
