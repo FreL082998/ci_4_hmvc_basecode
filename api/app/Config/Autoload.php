@@ -42,7 +42,10 @@ class Autoload extends AutoloadConfig
     public $psr4 = [
         APP_NAMESPACE   =>  APPPATH,
         'Config'        =>  APPPATH . 'Config',
-        'Commands'      =>  APPPATH . 'Commands',
+        'App\Commands'  =>  APPPATH . 'Commands',
+        'App\Entities'  =>  APPPATH . 'Entities',
+        'App\Enums'     =>  APPPATH . 'Enums',
+        'App\Modules'   =>  APPPATH . 'Modules',
     ];
 
     /**
