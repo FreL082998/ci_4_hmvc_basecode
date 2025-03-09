@@ -35,6 +35,11 @@ class {{moduleName}}Controller extends ApiController
     protected $databaseService;
 
     /**
+     * @var {{moduleName}}Service ${{moduleNameCamelCase}}Service Handles database transactions
+     */
+    protected ${{moduleNameCamelCase}}Service;
+
+    /**
      * Constructor
      * Initializes services, helpers, etc.
      */
@@ -42,6 +47,7 @@ class {{moduleName}}Controller extends ApiController
     {
         $this->commonService = service('commonService');
         $this->databaseService = service('databaseService');
+        $this->{{moduleNameCamelCase}}Service = service('{{moduleNameCamelCase}}Service');
     }
 
     /**
@@ -51,11 +57,18 @@ class {{moduleName}}Controller extends ApiController
      */
     public function index()
     {
-        $data = $this->model->findAll();
+        $data = $this->request->getVar();
+        $data['page'] = (int) ($data['page'] ?? 1);
+        $data['pageSize'] = (int) ($data['pageSize'] ?? config('Pager')->perPage);
+        
+        $result = [
+            'list' => $this->{{moduleNameCamelCase}}Service->get{{moduleName}}s($this->model, $data),
+            'pagination' => $this->commonService->pagination($this->model, $data['page'], $data['pageSize']),
+        ];
 
         return $this->success(
             message: 'Retrieve successfully.',
-            data: $data,
+            data: $result,
         );
     }
 
