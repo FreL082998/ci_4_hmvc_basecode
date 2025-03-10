@@ -4,9 +4,9 @@ namespace App\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
-use Psy\Shell;
+use Config\Autoload;
 
-class PsyshCommand extends BaseCommand
+class TestDebugCommand extends BaseCommand
 {
     /**
      * The Command's Group
@@ -20,21 +20,21 @@ class PsyshCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'psysh';
+    protected $name = 'test:debug';
 
     /**
      * The Command's Description
      *
      * @var string
      */
-    protected $description = 'Start an interactive PsySH shell for CodeIgniter 4.';
+    protected $description = 'Custom automated debugging tool. Note: Still POC under development.';
 
     /**
      * The Command's Usage
      *
      * @var string
      */
-    protected $usage = 'psysh [arguments] [options]';
+    protected $usage = 'test:debug [arguments] [options]';
 
     /**
      * The Command's Arguments
@@ -57,12 +57,16 @@ class PsyshCommand extends BaseCommand
      */
     public function run(array $params)
     {
-        if (!class_exists(Shell::class)) {
-            CLI::error('PsySH is not installed. Run: composer require --dev psy/psysh');
-            return;
+        switch ($params[0]) {
+            case 'Autoload':
+                $autoload = new Autoload();
+                CLI::write(print_r($autoload->psr4, true), 'yellow');
+                break;
+            
+            default:
+                # code...
+                break;
         }
-
-        $shell = new Shell();
-        $shell->run();
     }
+
 }
