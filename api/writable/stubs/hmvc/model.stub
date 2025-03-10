@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\{{moduleName}}\Models;
+namespace Modules\{{moduleName}}\Models;
 
-use App\Modules\{{moduleName}}\Entities\{{moduleName}}Entity;
 use CodeIgniter\Model;
+use Modules\{{moduleName}}\Entities\{{moduleName}}Entity;
 
 class {{moduleName}}Model extends Model
 {

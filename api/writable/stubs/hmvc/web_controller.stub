@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\{{moduleName}}\Controllers\Web;
+namespace Modules\{{moduleName}}\Controllers\Web;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -9,6 +9,6 @@ class {{moduleName}}Controller extends BaseController
 {
     public function index()
     {
-        return view('App\Modules\{{moduleName}}\Views\index');
+        return view('Modules\{{moduleName}}\Views\index');
     }
 }

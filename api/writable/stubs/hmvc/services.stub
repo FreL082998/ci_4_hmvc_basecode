@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\{{moduleName}}\Config;
+namespace Modules\{{moduleName}}\Config;
 
-use App\Modules\{{moduleName}}\Services\{{moduleName}}Service;
 use CodeIgniter\Config\BaseService;
+use Modules\{{moduleName}}\Services\{{moduleName}}Service;
 
 /**
  * Services Configuration file.

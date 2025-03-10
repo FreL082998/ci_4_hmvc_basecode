@@ -1,10 +1,10 @@
 <?php
 
-$routes->group('api', ['namespace' => 'App\Modules\{{moduleName}}\Controllers\Api'], function ($routes) {
+$routes->group('api', ['namespace' => 'Modules\{{moduleName}}\Controllers\Api'], function ($routes) {
     $routes->resource('{{moduleNameToLower}}', ['controller' => '{{moduleName}}Controller']);
 });
 
-$routes->group('/', ['namespace' => 'App\Modules\{{moduleName}}\Controllers\Web'], function ($routes) {
+$routes->group('/', ['namespace' => 'Modules\{{moduleName}}\Controllers\Web'], function ($routes) {
     $routes->group('{{moduleNameToLower}}', function ($routes) {
         $routes->get('/', '{{moduleName}}Controller::index');
     });

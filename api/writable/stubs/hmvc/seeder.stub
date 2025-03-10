@@ -1,0 +1,13 @@
+<?php
+
+namespace Modules\{{moduleName}}\Database\Seeds;
+
+use CodeIgniter\Database\Seeder;
+
+class {{seederName}} extends Seeder
+{
+    public function run()
+    {
+        //
+    }
+}
