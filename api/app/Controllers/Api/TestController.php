@@ -4,7 +4,7 @@ namespace App\Controllers\Api;
 
 use App\Controllers\ApiController;
 use App\Entities\TestEntity;
-use App\Enums\LogTypeEnum;
+use App\Enums\LogTypesEnum;
 use Exception;
 
 /**
@@ -240,7 +240,7 @@ class TestController extends ApiController
             $this->databaseService->db->transRollback(); // Rollback Transaction
         }
 
-        $errors = $this->commonService->log(LogTypeEnum::ERROR, $ex, null, null);
+        $errors = $this->commonService->log(LogTypesEnum::ERROR, $ex, null, null);
         
         return $this->error(
             message: $message,
