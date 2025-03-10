@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\{{moduleName}}\Enums;
+namespace Modules\{{moduleName}}\Enums;
 
 /**
  * Enum {{enumName}}Enum

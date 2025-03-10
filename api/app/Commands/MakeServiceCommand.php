@@ -69,7 +69,7 @@ class MakeServiceCommand extends BaseCommand
         }
 
         $filePath = $isHmvc 
-            ? APPPATH . "Modules/{$moduleName}/Services/{$serviceName}Service.php" 
+            ? ROOTPATH . "Modules/{$moduleName}/Services/{$serviceName}Service.php" 
             : APPPATH . "Services/{$serviceName}Service.php";
 
         // Ensure the directory exists before writing the file
@@ -93,10 +93,6 @@ class MakeServiceCommand extends BaseCommand
         $stubContent = file_get_contents($stubPath);
         $serviceContent = str_replace('{{serviceName}}', $serviceName, $stubContent);
         $serviceContent = str_replace('{{moduleName}}', $moduleName, $serviceContent);
-
-        if (!is_dir(APPPATH . 'Services')) {
-            mkdir(APPPATH . 'Services', 0755, true);
-        }
 
         file_put_contents($filePath, $serviceContent);
 

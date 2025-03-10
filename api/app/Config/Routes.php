@@ -38,7 +38,7 @@ $routes->group('/', ['namespace' => 'App\Controllers\Web'], function ($routes) {
  * @param RouteCollection $routes The route collection instance.
  */
 $routes->group('', function ($routes) {
-    $modulesPath = APPPATH . 'Modules/';
+    $modulesPath = ROOTPATH . 'Modules/';
 
     // Check if the Modules directory exists
     if (is_dir($modulesPath)) {

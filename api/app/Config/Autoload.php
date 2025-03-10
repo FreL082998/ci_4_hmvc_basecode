@@ -45,7 +45,6 @@ class Autoload extends AutoloadConfig
         'App\Commands'  =>  APPPATH . 'Commands',
         'App\Entities'  =>  APPPATH . 'Entities',
         'App\Enums'     =>  APPPATH . 'Enums',
-        'App\Modules'   =>  APPPATH . 'Modules',
     ];
 
     /**
@@ -100,4 +99,42 @@ class Autoload extends AutoloadConfig
         'string_helper',
         'logger_helper',
     ];
+
+    /**
+     * Constructor for Autoload.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->psr4 += $this->hmvcModules();
+    }
+
+    /**
+     * Automatically detect and register module namespaces
+     * 
+     * @return array
+     */
+    public function hmvcModules(): array
+    {
+        $modulesPath = ROOTPATH . 'Modules/';
+        $modules = [];
+
+        if (is_dir($modulesPath)) {
+            foreach (scandir($modulesPath) as $module) {
+                if ($module === '.' || $module === '..') continue;
+
+                $namespace = "Modules\\{$module}";
+                $modulePath = "{$modulesPath}{$module}";
+                
+                $exclude = ['index.html', 'Common.php', '.htaccess'];
+                // Register module namespace
+                if(!in_array($module, $exclude)) {
+                    $modules[$namespace] = $modulePath;
+                }
+            }
+        }
+
+        return $modules;
+    }
 }

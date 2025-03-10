@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Modules\{{moduleName}}\Controllers\Api;
+namespace Modules\{{moduleName}}\Controllers\Api;
 
 use App\Controllers\ApiController;
-use App\Modules\{{moduleName}}\Entities\{{moduleName}}Entity;
-use App\Enums\LogTypeEnum;
+use App\Enums\LogTypesEnum;
+use Modules\{{moduleName}}\Entities\{{moduleName}}Entity;
 use Exception;
 
 /**
@@ -238,7 +238,7 @@ class {{moduleName}}Controller extends ApiController
             $this->databaseService->db->transRollback(); // Rollback Transaction
         }
 
-        $errors = $this->commonService->log(LogTypeEnum::ERROR, $ex, null, null);
+        $errors = $this->commonService->log(LogTypesEnum::ERROR, $ex, null, null);
         
         return $this->error(
             message: $message,

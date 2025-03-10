@@ -5,35 +5,35 @@ namespace App\Commands;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 
-class MakeEnumCommand extends BaseCommand
+class MakeHmvcSeederCommand extends BaseCommand
 {
     /**
      * The Command's Group
      *
      * @var string
      */
-    protected $group = 'Generators';
+    protected $group = 'HMVC';
 
     /**
      * The Command's Name
      *
      * @var string
      */
-    protected $name = 'make:enum';
+    protected $name = 'hmvc:seeder';
 
     /**
      * The Command's Description
      *
      * @var string
      */
-    protected $description = 'Generates a new enum file.';
+    protected $description = 'Generates a new hmvc module seeder file.';
 
     /**
      * The Command's Usage
      *
      * @var string
      */
-    protected $usage = 'make:enum [arguments] [options]';
+    protected $usage = 'hmvc:seeder [arguments] [options]';
 
     /**
      * The Command's Arguments
@@ -48,8 +48,7 @@ class MakeEnumCommand extends BaseCommand
      * @var array
      */
     protected $options = [
-        '--hmvc'   => 'Generate the enum inside a module.',
-        '--module' => 'Specify the module name (required if using --hmvc).',
+        '--module' => 'Specify the module name required for HMVC.',
     ];
 
     /**
@@ -59,18 +58,21 @@ class MakeEnumCommand extends BaseCommand
      */
     public function run(array $params)
     {
-        $enumName = $params[0] ?? null;
-        $isHmvc = CLI::getOption('hmvc') !== null;
-        $moduleName = CLI::getOption('module') ?? $enumName;
+        $seederName = $params[0] ?? null;
+        $moduleName = CLI::getOption('module');
 
-        if (!$enumName) {
-            CLI::error('You must provide an enum name.');
+        if (!$seederName) {
+            CLI::error('You must provide an seeder name.');
             return;
         }
 
-        $filePath = $isHmvc 
-            ? ROOTPATH . "Modules/{$moduleName}/Enums/{$enumName}Enum.php"
-            : APPPATH . "Enums/{$enumName}Enum.php";
+        if (!$moduleName) {
+            CLI::error('You must provide an module name.');
+            return;
+        }
+
+        $createAt = date('Y-m-d-His');
+        $filePath = ROOTPATH . "Modules/{$moduleName}/Database/Seeds/{$seederName}.php";
 
         // Ensure the directory exists before writing the file
         $directory = dirname($filePath);
@@ -79,11 +81,11 @@ class MakeEnumCommand extends BaseCommand
         }
 
         if (file_exists($filePath)) {
-            CLI::error("Enum '{$enumName}Enum' already exists.");
+            CLI::error("Seeder file '{$seederName}' already exists.");
             return;
         }
 
-        $stubPath = $isHmvc ? WRITEPATH . 'stubs/hmvc/enum.stub' : WRITEPATH . 'stubs/enum.stub';
+        $stubPath = WRITEPATH . 'stubs/hmvc/seeder.stub';
         if (!file_exists($stubPath)) {
             CLI::error('Stub file not found.');
             return;
@@ -91,11 +93,11 @@ class MakeEnumCommand extends BaseCommand
 
         // Load the stub and replace placeholder
         $stubContent = file_get_contents($stubPath);
-        $enumContent = str_replace('{{enumName}}', $enumName, $stubContent);
-        $enumContent = str_replace('{{moduleName}}', $moduleName, $enumContent);
+        $seederContent = str_replace('{{seederName}}', $seederName, $stubContent);
+        $seederContent = str_replace('{{moduleName}}', $moduleName, $seederContent);
 
-        file_put_contents($filePath, $enumContent);
+        file_put_contents($filePath, $seederContent);
 
-        CLI::write("Enum '{$enumName}Enum' created successfully!", 'green');
+        CLI::write("Seeder file '{$seederName}' created successfully!", 'green');
     }
 }

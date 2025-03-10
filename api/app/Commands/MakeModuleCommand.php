@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
+use App\Enums\DirectivesEnum;
 
 class MakeModuleCommand extends BaseCommand
 {
@@ -80,55 +81,10 @@ class MakeModuleCommand extends BaseCommand
     private function generateHmvcModuleFiles(string|null $moduleName): void
     {
         if($moduleName) {
-            $directives = [
-                'api_controller'    =>  [
-                    'type'  =>  'Controller',
-                    'path'  =>  APPPATH . "Modules/{$moduleName}/Controllers/Api/{$moduleName}Controller.php",
-                    'stub'  =>  'hmvc/api_controller.stub',
-                ],
-                'web_controller'    =>  [
-                    'type'  =>  'Controller',
-                    'path'  =>  APPPATH . "Modules/{$moduleName}/Controllers/Web/{$moduleName}Controller.php",
-                    'stub'  =>  'hmvc/web_controller.stub',
-                ],
-                'entity'            =>  [
-                    'type'  =>  'Entity',
-                    'path'  =>  APPPATH . "Modules/{$moduleName}/Entities/{$moduleName}Entity.php",
-                    'stub'  =>  'hmvc/entity.stub',
-                ],
-                'model'             =>  [
-                    'type'  =>  'Model',
-                    'path'  =>  APPPATH . "Modules/{$moduleName}/Models/{$moduleName}Model.php",
-                    'stub'  =>  'hmvc/model.stub',
-                ],
-                'service'           =>  [
-                    'type'  =>  'Service',
-                    'path'  =>  APPPATH . "Modules/{$moduleName}/Services/{$moduleName}Service.php",
-                    'stub'  =>  'hmvc/service.stub',
-                ],
-                'view'              =>  [
-                    'type'  =>  'View',
-                    'path'  =>  APPPATH . "Modules/{$moduleName}/Views/index.php",
-                    'stub'  =>  'hmvc/view.stub',
-                ],
-                'route'             =>  [
-                    'type'  =>  'Routes',
-                    'path'  =>  APPPATH . "Modules/{$moduleName}/Config/Routes.php",
-                    'stub'  =>  'hmvc/route.stub',
-                ],
-                'services'          =>  [
-                    'type'  =>  'Service Registry',
-                    'path'  =>  APPPATH . "Modules/{$moduleName}/Config/Services.php",
-                    'stub'  =>  'hmvc/services.stub',
-                ],
-            ];
-            
+            $directives = DirectivesEnum::all($moduleName, true);
             foreach ($directives as $directive) {
                 $this->generateFile($directive['type'], $directive['path'], $directive['stub'], $moduleName, true);
             }
-
-            command('make:migration Create' . $moduleName . 'Table');
-            command('make:seeder ' . $moduleName . 'Seeder');
         }
     }
 
@@ -187,6 +143,8 @@ class MakeModuleCommand extends BaseCommand
         $content = str_replace('{{moduleNameToLower}}', strtolower($moduleName), $content);
         $content = str_replace('{{serviceName}}', $moduleName, $content);
         $content = str_replace('{{enumName}}', $moduleName, $content);
+        $content = str_replace('{{migrationFileName}}', "Create{$moduleName}Table", $content);
+        $content = str_replace('{{seederName}}', "{$moduleName}Seeder", $content);
 
         file_put_contents($filePath, $content);
         CLI::write("Created {$type}: {$filePath}", 'yellow');
