@@ -71,7 +71,6 @@ class MakeHmvcSeederCommand extends BaseCommand
             return;
         }
 
-        $createAt = date('Y-m-d-His');
         $filePath = ROOTPATH . "Modules/{$moduleName}/Database/Seeds/{$seederName}.php";
 
         // Ensure the directory exists before writing the file
