@@ -2,6 +2,8 @@
 
 namespace Modules\{{moduleName}}\Services;
 
+use CodeIgniter\Model;
+
 /**
  * Class {{serviceName}}Service
  *
@@ -18,12 +20,31 @@ class {{serviceName}}Service
     }
 
     /**
-     * Example method in {{serviceName}}Service.
+     * Retrieve {{moduleName}} list.
      *
+     * @param Model $model
+     * @param array $data
      * @return string
      */
-    public function exampleMethod(): string
+    public function get{{moduleName}}s(Model $model, array $data): array
     {
-        return 'This is an example method in {{serviceName}}Service';
+        $query = $model;
+
+        $filters = ['username', 'status', 'is_reset', 'created_at'];
+        foreach ($filters as $filter) {
+            if(isset($data[$filter])) {
+                $query->like($filter, $data[$filter]);
+            }
+        }
+        
+        $result = $query->orderBy(
+            $data['orderBy'] ?? 'created_at',
+            $data['sortBy'] ?? 'DESC',
+        )
+        ->limit($data['pageSize'], ($data['page'] - 1) * $data['pageSize'])
+        ->get()
+        ->getResultArray();
+
+        return $result;
     }
 }
