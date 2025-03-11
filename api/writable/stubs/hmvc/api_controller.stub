@@ -17,7 +17,7 @@ class {{moduleName}}Controller extends ApiController
     /**
      * @var string $modelName Model class name
      */
-    protected $modelName = 'App\Models\{{moduleName}}Model';
+    protected $modelName = 'Modules\{{moduleName}}\Models\{{moduleName}}Model';
 
     /**
      * @var string $format Response format
