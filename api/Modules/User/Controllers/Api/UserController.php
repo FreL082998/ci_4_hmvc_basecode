@@ -1,23 +1,23 @@
 <?php
 
-namespace Modules\{{moduleName}}\Controllers\Api;
+namespace Modules\User\Controllers\Api;
 
 use App\Controllers\ApiController;
 use App\Enums\LogTypesEnum;
-use Modules\{{moduleName}}\Entities\{{moduleName}}Entity;
+use Modules\User\Entities\UserEntity;
 use Exception;
 
 /**
- * Class {{moduleName}}Controller
+ * Class UserController
  *
  * Controller for handling API requests related to Test model.
  */
-class {{moduleName}}Controller extends ApiController
+class UserController extends ApiController
 {
     /**
      * @var string $modelName Model class name
      */
-    protected $modelName = 'Modules\{{moduleName}}\Models\{{moduleName}}Model';
+    protected $modelName = 'Modules\User\Models\UserModel';
 
     /**
      * @var string $format Response format
@@ -35,9 +35,9 @@ class {{moduleName}}Controller extends ApiController
     protected $databaseService;
 
     /**
-     * @var {{moduleName}}Service ${{moduleNameCamelCase}}Service Handles database transactions
+     * @var UserService $userService Handles database transactions
      */
-    protected ${{moduleNameCamelCase}}Service;
+    protected $userService;
 
     /**
      * Constructor
@@ -47,7 +47,7 @@ class {{moduleName}}Controller extends ApiController
     {
         $this->commonService = service('commonService');
         $this->databaseService = service('databaseService');
-        $this->{{moduleNameCamelCase}}Service = service('{{moduleNameCamelCase}}Service');
+        $this->userService = service('userService');
     }
 
     /**
@@ -62,7 +62,7 @@ class {{moduleName}}Controller extends ApiController
         $data['pageSize'] = (int) ($data['pageSize'] ?? config('Pager')->perPage);
         
         $result = [
-            'list' => $this->{{moduleNameCamelCase}}Service->get{{moduleName}}s($this->model, $data),
+            'list' => $this->userService->getUsers($this->model, $data),
             'pagination' => $this->commonService->pagination($this->model, $data['page'], $data['pageSize']),
         ];
 
@@ -111,13 +111,13 @@ class {{moduleName}}Controller extends ApiController
             $data = $this->request->getJSON(true);
 
             // Set entity value
-            ${{entityName}}Entity = new {{moduleName}}Entity();
-            ${{entityName}}Entity->example = $data['example'] ?? null;
+            $userEntity = new UserEntity();
+            $userEntity->example = $data['example'] ?? null;
 
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Insert data into model
-            if (!$this->model->insert(${{entityName}}Entity)) {
+            if (!$this->model->insert($userEntity)) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
@@ -130,7 +130,7 @@ class {{moduleName}}Controller extends ApiController
 
             return $this->success(
                 message: 'Save successfully.',
-                data: ${{entityName}}Entity, // Return saved data
+                data: $userEntity, // Return saved data
             );
         } catch (Exception $ex) {
             return $this->handleException($ex, 'Saved delete.', true);
@@ -159,13 +159,13 @@ class {{moduleName}}Controller extends ApiController
             $data = $this->request->getJSON(true);
 
             // Set entity value
-            ${{entityName}}Entity = new {{moduleName}}Entity();
-            ${{entityName}}Entity->example = $data['example'] ?? null;
+            $userEntity = new UserEntity();
+            $userEntity->example = $data['example'] ?? null;
     
             $this->databaseService->db->transBegin(); // Begin Transaction
 
             // Update data into model
-            if (!$this->model->update($id, ${{entityName}}Entity)) {
+            if (!$this->model->update($id, $userEntity)) {
                 throw new Exception(implode(", ", $this->model->errors())); // Get validation errors
             }
 
@@ -178,7 +178,7 @@ class {{moduleName}}Controller extends ApiController
 
             return $this->success(
                 message: 'Update successfully.',
-                data: ${{entityName}}Entity, // Return saved data
+                data: $userEntity, // Return saved data
             );
         } catch (Exception $ex) {
             return $this->handleException($ex, 'Saved delete.', true);

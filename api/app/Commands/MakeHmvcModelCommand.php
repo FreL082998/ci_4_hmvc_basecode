@@ -131,7 +131,7 @@ class MakeHmvcModelCommand extends BaseCommand
             return;
         }
 
-        $stubPath = WRITEPATH . 'stubs/hmvc/entity.stub';
+        $stubPath = WRITEPATH . 'stubs/hmvc/entity_copy.stub';
         if (!file_exists($stubPath)) {
             CLI::error('Stub file not found.');
             return;
@@ -139,7 +139,8 @@ class MakeHmvcModelCommand extends BaseCommand
 
         // Load the stub and replace placeholder
         $stubContent = file_get_contents($stubPath);
-        $content = str_replace('{{moduleName}}', $this->modelName, $stubContent);
+        $content = str_replace('{{moduleName}}', $this->moduleName, $stubContent);
+        $content = str_replace('{{entityName}}', $this->modelName, $stubContent);
 
         file_put_contents($filePath, $content);
 

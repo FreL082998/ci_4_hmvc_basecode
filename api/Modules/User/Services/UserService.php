@@ -1,18 +1,18 @@
 <?php
 
-namespace Modules\{{moduleName}}\Services;
+namespace Modules\User\Services;
 
 use CodeIgniter\Model;
 
 /**
- * Class {{serviceName}}Service
+ * Class UserService
  *
- * This service class is responsible for handling business logic related to {{serviceName}}Service.
+ * This service class is responsible for handling business logic related to UserService.
  */
-class {{serviceName}}Service
+class UserService
 {
     /**
-     * Constructor for {{serviceName}}Service.
+     * Constructor for UserService.
      */
     public function __construct()
     {
@@ -20,13 +20,13 @@ class {{serviceName}}Service
     }
 
     /**
-     * Retrieve {{moduleName}} list.
+     * Retrieve user master list.
      *
      * @param Model $model
      * @param array $data
      * @return string
      */
-    public function get{{moduleName}}s(Model $model, array $data): array
+    public function getUsers(Model $model, array $data): array
     {
         $query = $model;
 
