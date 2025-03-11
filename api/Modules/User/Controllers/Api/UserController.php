@@ -4,6 +4,7 @@ namespace Modules\User\Controllers\Api;
 
 use App\Controllers\ApiController;
 use App\Enums\LogTypesEnum;
+use App\Enums\StatusTypesEnum;
 use Modules\User\Entities\UserEntity;
 use Exception;
 
@@ -112,7 +113,10 @@ class UserController extends ApiController
 
             // Set entity value
             $userEntity = new UserEntity();
-            $userEntity->example = $data['example'] ?? null;
+            $userEntity->username = $data['username'] ?? null;
+            $userEntity->password = $data['username'] ? password_hash($data['username'], PASSWORD_BCRYPT) : null;
+            $userEntity->status = StatusTypesEnum::ACTIVE->value,
+            $userEntity->is_reset = 1;
 
             $this->databaseService->db->transBegin(); // Begin Transaction
 
@@ -160,7 +164,10 @@ class UserController extends ApiController
 
             // Set entity value
             $userEntity = new UserEntity();
-            $userEntity->example = $data['example'] ?? null;
+            $userEntity->username = $data['username'] ?? null;
+            $userEntity->password = $data['password'] ? password_hash($data['password'], PASSWORD_BCRYPT) : null;
+            $userEntity->status = $data['status'] ?? null,
+            $userEntity->is_reset = $data['is_reset'] ?? null;
     
             $this->databaseService->db->transBegin(); // Begin Transaction
 
@@ -201,6 +208,12 @@ class UserController extends ApiController
             if (!$model) {
                 // return not found
                 throw new Exception("No data found with ID $id");
+            }
+
+            // Check if $model still active
+            if ($model->status === StatusTypesEnum::ACTIVE->value) {
+                // return user still active
+                throw new Exception("User {$model->username} still active");
             }
 
             $this->databaseService->db->transBegin(); // Begin Transaction
