@@ -94,11 +94,7 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $helpers = [
-        'url', 
-        'string_helper',
-        'logger_helper',
-    ];
+    public $helpers = ['url', 'string_helper', 'logger_helper', 'auth', 'setting'];
 
     /**
      * Constructor for Autoload.
